@@ -4,11 +4,11 @@ import os
 
 def files_name_replace(root, find, replace, suffix="*"):
     """
-    æ‰¹å¤„ç†æ–‡ä»¶åæŸ¥æ‰¾æ›¿æ¢
-    :param root: æ ¹ç›®å½•ï¼Œä¼šéå†å­æ–‡ä»¶å¤¹
-    :param find: æŸ¥æ‰¾å†…å®¹
-    :param replace: æ›¿æ¢ä¸º
-    :param suffix: æ–‡ä»¶è¿‡æ»¤ï¼Œä¾‹å­ï¼š*.txt, *.json, *
+    Åú´¦ÀíÎÄ¼şÃû²éÕÒÌæ»»
+    :param root: ¸ùÄ¿Â¼£¬»á±éÀú×ÓÎÄ¼ş¼Ğ
+    :param find: ²éÕÒÄÚÈİ
+    :param replace: Ìæ»»Îª
+    :param suffix: ÎÄ¼ş¹ıÂË£¬Àı×Ó£º*.txt, *.json, *
     """
     counter = 0
     for path, sub_dirs, files in os.walk(root):
@@ -16,20 +16,21 @@ def files_name_replace(root, find, replace, suffix="*"):
             if find in file_name:
                 file_path = os.path.join(path, file_name)
                 new_name = os.path.join(path, file_name.replace(find, replace))
-                os.rename(file_path, new_name)
-                counter += 1
-                print(f"ä¿®æ”¹æ–‡ä»¶ï¼š{file_path} -> {new_name}")
+                if file_path != new_name:
+                    os.rename(file_path, new_name)
+                    counter += 1
+                    print(f"ĞŞ¸ÄÎÄ¼ş£º{file_path} -> {new_name}")
 
-    print(f'ä»»åŠ¡å·²ç»“æŸï¼Œ æ€»å…±ä¿®æ”¹äº† {counter} ä¸ªæ–‡ä»¶å')
+    print(f'ÈÎÎñÒÑ½áÊø£¬ ×Ü¹²ĞŞ¸ÄÁË {counter} ¸öÎÄ¼şÃû')
 
 
 def files_content_replace(root, find, replace, suffix="*"):
     """
-    æ‰¹å¤„ç†æ–‡ä»¶å†…å®¹æŸ¥æ‰¾æ›¿æ¢
-    :param root: æ ¹ç›®å½•ï¼Œä¼šéå†å­æ–‡ä»¶å¤¹
-    :param find: æŸ¥æ‰¾å†…å®¹
-    :param replace: æ›¿æ¢ä¸º
-    :param suffix: æ–‡ä»¶è¿‡æ»¤ï¼Œä¾‹å­ï¼š*.txt, *.json *
+    Åú´¦ÀíÎÄ¼şÄÚÈİ²éÕÒÌæ»»
+    :param root: ¸ùÄ¿Â¼£¬»á±éÀú×ÓÎÄ¼ş¼Ğ
+    :param find: ²éÕÒÄÚÈİ
+    :param replace: Ìæ»»Îª
+    :param suffix: ÎÄ¼ş¹ıÂË£¬Àı×Ó£º*.txt, *.json *
     """
     find_counter = 0
     file_counter = 0
@@ -45,6 +46,11 @@ def files_content_replace(root, find, replace, suffix="*"):
                     file.write(content)
                 find_counter += temp_counter
                 file_counter += 1
-                print(f'åœ¨ {file_path} ä¸­ä¿®æ”¹äº† {temp_counter} é¡¹')
+                print(f'ÔÚ {file_path} ÖĞĞŞ¸ÄÁË {temp_counter} Ïî')
 
-    print(f'ä»»åŠ¡å·²ç»“æŸï¼Œ æ€»å…±åœ¨ {file_counter} ä¸ªæ–‡ä»¶ä¸­ä¿®æ”¹äº† {find_counter} é¡¹')
+    print(f'ÈÎÎñÒÑ½áÊø£¬ ×Ü¹²ÔÚ {file_counter} ¸öÎÄ¼şÖĞĞŞ¸ÄÁË {find_counter} Ïî')
+
+
+if __name__ == '__main__':
+    files_name_replace(".\\", "wool", "wool")
+    files_content_replace(".\\", "wool", "wool")
