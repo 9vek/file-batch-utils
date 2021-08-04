@@ -1,3 +1,4 @@
+#coding=gbk
 import shutil
 import fnmatch
 import os
@@ -57,14 +58,14 @@ def files_delete(root, find, backup=True):
     :param find: 文件名匹配
     :param backup: 是否在删除之前备份
     """
+    if not os.path.exists(os.path.join(root, "backup")):
+        os.mkdir(os.path.join(root, "backup"))
     counter = 0
     for path, sub_dirs, files in os.walk(root):
         for file_name in files:
             if find in file_name:
                 file_path = os.path.join(path, file_name)
                 if backup is True:
-                    if not os.path.exists(os.path.join(root, "backup")):
-                        os.mkdir(os.path.join(root, "backup"))
                     backup_dir = os.path.join(root, "backup")
                     backup_path = os.path.join(backup_dir, file_name)
                     shutil.copyfile(file_path, backup_path)
@@ -74,7 +75,31 @@ def files_delete(root, find, backup=True):
     print(f"任务已结束，共删除了 {counter} 个文件")
 
 
+def files_copy(root, find):
+    """
+    批处理文件查找拷贝
+    :param root: 根目录，会遍历子文件夹
+    :param find: 文件名匹配
+    """
+    if not os.path.exists(os.path.join(root, "copy")):
+        os.mkdir(os.path.join(root, "copy"))
+    counter = 0
+    for path, sub_dirs, files in os.walk(root):
+        for file_name in files:
+            if find in file_name:
+                file_path = os.path.join(path, file_name)
+                copy_dir = os.path.join(root, "copy")
+                copy_path = os.path.join(copy_dir, file_name)
+                shutil.copyfile(file_path, copy_path)
+                counter += 1
+                print(f"拷贝了 {file_path} ")
+    print(f"任务已结束，共拷贝了 {counter} 个符合条件的文件")
+
+
 if __name__ == '__main__':
-    # files_delete(".\\", "glass")
-    # files_name_replace(".\\", "concrete", "wool", "*.json")
-    files_content_replace(".\\", "concrete", "wool", "*.json")
+    # files_copy(".\\", "stained_glass")
+    # files_name_replace(".\\", "wool", "wool_stairs", "*.json")
+    # files_content_replace(".\\", "wool", "wool_stairs", "*.json")
+    files_name_replace(".\\", "stairs", "slab", "*.json")
+    files_content_replace(".\\", "stairs", "slab", "*.json")
+    # files_delete(".\\", "wool")
